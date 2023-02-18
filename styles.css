@@ -1,0 +1,13 @@
+.calculator {
+  border: 2px solid blue;
+  width: 400px;
+
+}
+
+.screen {
+  border: 2px solid red;
+}
+
+.buttons {
+  border: 2px solid green;
+}

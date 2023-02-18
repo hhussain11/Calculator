@@ -1,0 +1,1 @@
+We are going to make a calculator with simple operations.
