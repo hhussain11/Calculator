@@ -13,6 +13,8 @@
     <div class="calculator">
 
       <div class="screen">
+        <div class="small-screen"></div>
+        <div class="big-screen">big</div>
       </div>
       <div class="buttons">
         <div>
@@ -86,7 +88,8 @@
       return operator(a,b);
     };
 
-    let screen = document.querySelector('.screen');
+    let bigScreen = document.querySelector('.big-screen');
+    let smallScreen = document.querySelector('.small-screen');
     let numbers = document.querySelectorAll('.number');
     let clear = document.querySelector('.clear');
     let addition = document.querySelector('.add');
@@ -94,43 +97,106 @@
     let multiplication = document.querySelector('.times');
     let division = document.querySelector('.divide');
     let equals = document.querySelector('.equals');
-    screen.textContent = '';
 
-
-    numbers.forEach(node => node.addEventListener('click', () => {screen.textContent = screen.textContent + event.srcElement.textContent}));
-    clear.addEventListener('click', () => {screen.textContent = ''});
-
-    let firstNumber;
-    let secondNumber;
+    let firstNumber = '';
+    let secondNumber = '';
+    let fn = false
+    let result;
     let operation;
 
+    smallScreen.textContent = ''
+
+
+    numbers.forEach(number => number.addEventListener('click', () => {
+
+      if (!fn) {
+        firstNumber += event.srcElement.textContent;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+      else {
+        secondNumber += event.srcElement.textContent;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+    }));
+    
+    clear.addEventListener('click', () => {
+      bigScreen.textContent = '';
+      smallScreen.textContent = '' ;
+
+      firstNumber = '';
+      secondNumber = '';
+      fn = false;
+    });
+
+
     addition.addEventListener('click', () => {
-      firstNumber = +screen.textContent;
-      screen.textContent = ''
-      operation = add;
+
+      if (firstNumber && !secondNumber) {
+        operation = add;
+        fn = true;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+      else {
+        result = operate(operation, +firstNumber, +secondNumber);
+        bigScreen.textContent = result;
+        firstNumber = result;
+        secondNumber = '';
+        operation = add;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
     });
 
     subtraction.addEventListener('click', () => {
-      firstNumber = +screen.textContent;
-      screen.textContent = ''
-      operation = subtract;
+      if (firstNumber && !secondNumber) {
+        operation = subtract;
+        fn = true;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+      else {
+        result = operate(operation, +firstNumber, +secondNumber);
+        bigScreen.textContent = result;
+        firstNumber = result;
+        secondNumber = '';
+        operation = subtract;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
     });
 
     multiplication.addEventListener('click', () => {
-      firstNumber = +screen.textContent;
-      screen.textContent = ''
-      operation = multiply;
+      if (firstNumber && !secondNumber) {
+        operation = multiply;
+        fn = true;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+      else {
+        result = operate(operation, +firstNumber, +secondNumber);
+        bigScreen.textContent = result;
+        firstNumber = result;
+        secondNumber = '';
+        operation = multiply;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
     });
 
     division.addEventListener('click', () => {
-      firstNumber = +screen.textContent;
-      screen.textContent = ''
-      operation = divide;
+      if (firstNumber && !secondNumber) {
+        operation = divide;
+        fn = true;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
+      else {
+        result = operate(operation, +firstNumber, +secondNumber);
+        bigScreen.textContent = result;
+        firstNumber = result;
+        secondNumber = '';
+        operation = divide;
+        smallScreen.textContent += event.srcElement.textContent;
+      }
     });
   
     equals.addEventListener('click', () => {
-      secondNumber = +screen.textContent;
-      screen.textContent = operate(operation, firstNumber, secondNumber);  
+      secondNumber = +bigScreen.textContent;
+      bigScreen.textContent = operate(operation, firstNumber, secondNumber);  
     });
 
     
